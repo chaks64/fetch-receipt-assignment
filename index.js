@@ -11,7 +11,7 @@ app.use(express.json());
 // Sample API to test the server
 app.get("/", (req, res) => {
   const data = {
-    message: "Server running fine",
+    message: "Server running test",
   };
   res.json(data);
 });
