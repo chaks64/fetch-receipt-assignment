@@ -7,6 +7,7 @@ require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
+const port = process.env.PORT || 3001;
 
 // Sample API to test the server
 app.get("/", (req, res) => {
@@ -16,6 +17,6 @@ app.get("/", (req, res) => {
   res.json(data);
 });
 
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(port, () => {
   console.log(`Server started on Port ${process.env.PORT}`);
 });
