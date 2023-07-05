@@ -10,11 +10,12 @@ module.exports.createID = async (req, res, next) => {
 
     if(!validateReceipt(receipt)){
         res.status(400).json({ error: "The receipt is invalid" });
+        return;
     }
 
     client.set(id, JSON.stringify(receipt), (err) => {
       if (err instanceof TypeError && err.message === "Invalid argument type") {
-        res.status(400).json({ error: err.message || "Invalid receipt" });
+        res.status(400).json({ error: err.message || "The receipt is invalid" });
       } else if (err) {
         res.status(500).json({ error: err.message || "Internal Server Error" });
       } else {

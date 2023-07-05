@@ -8,11 +8,9 @@ module.exports.calcPoints = async (req, res, next) => {
     const key = req.params.id;
     client.get(key, (err, value) => {
       if (err) {
-        // console.log(err);
         res.status(500).json({ error: "Internal Server Error" });
         return;
       }
-      console.log(JSON.parse(value));
       if (value) {
         let points = calculatePoints(JSON.parse(value));
         res.status(200).json({ points });

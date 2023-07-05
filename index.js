@@ -42,13 +42,13 @@ process.on("SIGTERM", clearCache); // For server termination
 
 // Sample API to test the server
 app.get("/", (req, res) => {
-  res.send("Server running fine");
+  res.status(200).json({ message: "Welcome" });
 });
 
 //Routes
 app.use("/receipts", receiptRoutes);
 
 //server listener
-app.listen(port, () => {
+module.exports = app.listen(port, () => {
   logger.info(`Server started on Port ${port}: ${__filename}`);
 });

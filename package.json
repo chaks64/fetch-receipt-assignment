@@ -4,7 +4,7 @@
   "description": "fetch backend assignment",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon index.js"
   },
   "author": "Chintan",
@@ -17,5 +17,9 @@
     "redis": "^4.6.7",
     "uuid": "^9.0.0",
     "winston": "^3.9.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
   }
 }
