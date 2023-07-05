@@ -10,6 +10,15 @@ const cors = require("cors");
 //environment variables
 require("dotenv").config();
 
+//logger
+const logger = require("./utils/logger");
+
+const receiptRoutes = require("./routes/receiptRoutes");
+
+app.use(cors());
+app.use(express.json());
+const port = process.env.PORT || 3001;
+
 //redis connection
 const { redisConn } = require("./db");
 const client = redisConn();
@@ -18,9 +27,9 @@ const client = redisConn();
 function clearCache() {
   client.flushAll((err, reply) => {
     if (err) {
-      console.error('Error clearing Redis cache:', err);
+      console.error("Error clearing Redis cache:", err);
     } else {
-      console.log('Redis cache cleared successfully');
+      console.log("Redis cache cleared successfully");
     }
     client.quit(); // Quit the Redis client connection
     process.exit(0); // Terminate the process
@@ -28,23 +37,13 @@ function clearCache() {
 }
 
 // Listen for the server shutdown event
-process.on('SIGINT', clearCache); // For Ctrl+C
-process.on('SIGTERM', clearCache); // For server termination
-
-const receiptRoutes = require("./routes/receiptRoutes");
-
-//logger
-const logger = require("./utils/logger");
-
-app.use(cors());
-app.use(express.json());
-const port = process.env.PORT || 3001;
+process.on("SIGINT", clearCache); // For Ctrl+C
+process.on("SIGTERM", clearCache); // For server termination
 
 // Sample API to test the server
 app.get("/", (req, res) => {
   res.send("Server running fine");
 });
-
 
 //Routes
 app.use("/receipts", receiptRoutes);
