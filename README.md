@@ -23,12 +23,12 @@ docker run --name my-redis -d -p 6379:6379 redis
 
    - Clone the GitHub repository
    ```shell 
-   git clone <repository_url> 
+   git clone https://github.com/chaks64/fetch-receipt-assignment.git 
    ```
    
    - Change into the project directory
    ``` shell 
-   cd <project_directory> 
+   cd fetch-receipt-assignment 
    ```
    
    - Build the Docker image
@@ -38,8 +38,8 @@ docker run --name my-redis -d -p 6379:6379 redis
   
 ### 3. Run the Docker image as a container by executing the following command
    - Run the docker image
-     ```shell
-      docker run -d --name my-container my-image
-      ```
+  ```shell
+  docker run -d --name my-container my-image
+  ```
 ## Running APIs
     
