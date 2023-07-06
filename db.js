@@ -4,9 +4,11 @@ require("dotenv").config();
 
 const redisConn = () => {
   const client = redis.createClient({
-    host: process.env.redisIP || "127.0.0.1", // This should be the name of the Redis container
-    port: process.env.redisPort || 6379, // Default Redis port
     legacyMode: true,
+    socket: {
+      host: 'redis',
+      port: 6379
+    }
   });
   client.connect();
   client.on("connect", () => {

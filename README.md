@@ -11,15 +11,7 @@ This project utilizes Docker and Redis to perform [Since using nodejs and all th
   
 ## Getting Started
 
-### 1. Run Redis on Docker
-
-To run Redis on Docker, execute the following command in your terminal:
-
-```shell
-docker run --name my-redis -d -p 6379:6379 redis
-```
-
-### 2. Clone the GitHub repository and build the docker image 
+### 1. Clone the GitHub repository and build the docker image 
 
    - Clone the GitHub repository
    ```shell 
@@ -30,16 +22,29 @@ docker run --name my-redis -d -p 6379:6379 redis
    ``` shell 
    cd fetch-receipt-assignment 
    ```
-   
+### 2. Build a docker image with Redis and Nodejs container on Docker
+
+To run Redis and Node.js on same container Docker, execute the following command in your terminal:
+  
    - Build the Docker image
   ```shell
   docker build -t my-image .
   ```
   
 ### 3. Run the Docker image as a container by executing the following command
-   - Run the docker image
+   - Run the following command to remove the existing containers and pull the latest version of the Docker image:
   ```shell
-  docker run -d --name my-container my-image
+  docker-compose down && docker-compose pull
   ```
+   - Rebuild the Docker image using docker-compose build: 
+  ```shell
+  docker-compose build
+  ```
+
+   - Rebuild the Docker image using docker-compose build: ("-d" to run in detach mode)
+  ```shell
+  docker-compose up -d
+  ```
+
 ## Running APIs
     
