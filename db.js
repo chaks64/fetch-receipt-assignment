@@ -1,19 +1,20 @@
 const redis = require("redis");
 const logger = require("./utils/logger");
+require("dotenv").config();
 
 const redisConn = () => {
   const client = redis.createClient({
-    host: "redis-test", // This should be the name of the Redis container
-    port: 6379, // Default Redis port
+    host: process.env.redisIP || "127.0.0.1", // This should be the name of the Redis container
+    port: process.env.redisPort || 6379, // Default Redis port
     legacyMode: true,
   });
   client.connect();
   client.on("connect", () => {
-    logger.info(`Connected to Redis ${__filename}`);
+    logger.info(`Connected to Redis: ${__filename}`);
   });
 
   client.on("error", (err) => {
-    console.error("Redis connection error:");
+    logger.error(`Redis connection error: ${__filename}`);
   });
 
   return client;
@@ -22,9 +23,9 @@ const redisConn = () => {
 function clearCache() {
   client.flushall((err, reply) => {
     if (err) {
-      console.error("Error clearing Redis cache:", err);
+      logger.error(`Error clearing Redis cache: ${__filename}`, err);
     } else {
-      console.log("Redis cache cleared successfully");
+      logger.info(`Redis cache cleared successfully: ${__filename}`);
     }
     client.quit(); // Quit the Redis client connection
     process.exit(0); // Terminate the process

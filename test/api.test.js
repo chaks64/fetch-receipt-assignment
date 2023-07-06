@@ -2,7 +2,12 @@ const chai = require("chai");
 const chaiHTTP = require("chai-http");
 const expect = chai.expect;
 let app = require("../index");
-const { successReceipt, errorReceipt, validID, inValidID } = require("./testData");
+const {
+  successReceipt,
+  errorReceipt,
+  validID,
+  inValidID,
+} = require("./testData.api");
 
 //Assertion stle
 chai.should();
@@ -41,7 +46,7 @@ describe("Test Fetch APIs", () => {
   });
 
   //store and create an ID for receipt (Error/Fail case)
-  it("should return error(invalid receipt)with status 400", (done) => {
+  it("should return error(invalid receipt) with status 400", (done) => {
     chai
       .request(app)
       .post("/receipts/process")
@@ -58,6 +63,7 @@ describe("Test Fetch APIs", () => {
       });
   });
 
+  //return valid calculated points for valid id
   it("should return points for a valid receipt ID", (done) => {
     chai
       .request(app)
@@ -74,7 +80,7 @@ describe("Test Fetch APIs", () => {
       });
   });
 
-
+  //return error for invalid id
   it("should return error(ID not found) for an invalid receipt ID", (done) => {
     chai
       .request(app)
