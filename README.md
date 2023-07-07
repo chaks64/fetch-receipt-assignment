@@ -22,16 +22,8 @@ This project utilizes Docker and Redis to perform [Since using nodejs and all th
    ``` shell 
    cd fetch-receipt-assignment 
    ```
-### 2. Build a docker image with Redis and Nodejs container on Docker
-
-To run Redis and Node.js on same container Docker, execute the following command in your terminal:
-  
-   - Build the Docker image
-  ```shell
-  docker build -t my-image .
-  ```
-  
-### 3. Run the Docker image as a container by executing the following command
+ 
+### 2. Run the Docker image as a container by executing the following command
    - Run the following command to remove the existing containers and pull the latest version of the Docker image:
   ```shell
   docker-compose down && docker-compose pull
@@ -47,4 +39,186 @@ To run Redis and Node.js on same container Docker, execute the following command
   ```
 
 ## Running APIs
+
+### API Endpoints
+
+- Sample API to see server is running:
+  - Path: http://localhost:3001/
+  - Method: GET
+  - Expected response: 
+  ```json
+  {"message":"Welcome"}
+  ```
+- Endpoint: Process Receipts:
+    - Path: http://localhost:3001/receipts/process
+    - Method: POST
+    - Payload: Receipt JSON of receipt [Format mention in the example section]
+    - Response: JSON containing an id for the receipt [Format mention in the example section]
+
+- Endpoint: Calulate Points:
+    - Path: http://localhost:3001/receipts/{id}/points [Example: http://localhost:3001/receipts/6938f5c0-2056-4e3f-8490-1a92931fb79a/points]
+    - Method: GET
+    - Response: A JSON object containing the number of points awarded
     
+## Examples
+### Receipt Paylod:
+#### Example 1 (valid):
+```json
+{
+    "retailer": "Walgreens",
+    "purchaseDate": "2022-01-02",
+    "purchaseTime": "08:13",
+    "total": "2.65",
+    "items": [
+        {"shortDescription": "Pepsi - 12-oz", "price": "1.25"},
+        {"shortDescription": "Dasani", "price": "1.40"}
+    ]
+}
+```
+
+#### Example 2 (valid):
+```json
+{
+    "retailer": "M&M Corner Market",
+    "purchaseDate": "2022-03-20",
+    "purchaseTime": "14:33",
+    "items": [
+        {"shortDescription": "Gatorade", "price": "2.25"},
+        {"shortDescription": "Gatorade", "price": "2.25"},
+        {"shortDescription": "Gatorade", "price": "2.25"},
+        {"shortDescription": "Gatorade", "price": "2.25"}
+  ],
+  "total": "9.00"
+}
+```
+
+#### Example 3 (invalid):
+```json
+{
+    "retailer": "   Target store",
+    "purchaseDate": "2022-03-20",
+    "purchaseTime": "14:33",
+    "items": [
+        {"shortDescription": "Bread", "price": "3.25"},
+        {"shortDescription": "Gatorade", "price": "1.25"}
+  ],
+  "total": "4.50"
+}
+```
+
+### Receipt Respose
+#### Successful Response: http-status code 200
+```json
+{
+    "id": "02ccbf2d-8ab2-4d01-ab0d-9d70c2aad572"
+}
+```
+#### Error Response: http-status code 400
+```json
+{
+    "error": "The receipt is invalid"
+}
+```
+
+### Points Response
+#### For Example 1: http-status code 200
+```json
+{
+    "points": 21
+}
+```
+
+#### For Example 2: http-status code 200
+```json
+{
+    "points": 115
+}
+```
+
+#### For Invalid ID: http-status code 404
+```json
+{
+    "error": "`No receipt found for the id`"
+}
+```
+
+## Assumptions
+ - Docker installed in the system. If not steps are given at start
+ - For the pattern of Retailer in recept JSON pattern was supposed to be `^\\S+$` but for one example `M&M Corner Market` it was not working so I updated the pattern to `^(?:[A-Za-z0-9&]+(?:\s|$))+$`
+   - From `^\\S+$` to `^(?:[A-Za-z0-9&]+(?:\s|$))+$`
+   
+- For testing the APIs I am assuming you might use postman or similar software
+   - [Download Postman](https://www.postman.com/downloads/)
+
+## Using IDE instead of docker
+
+### 1. Prerequisites
+
+Before getting started, ensure that you have Node.js and npm installed on your machine. Follow the steps below to download and install them:
+
+####  Node.js
+
+- Node.js (version 16.20.1 or higher)
+- npm package manager (version 8.19.4 or higher)
+
+1. Visit the official Node.js website: [nodejs.org](https://nodejs.org).
+2. Choose the version that corresponds to your operating system (Windows, macOS, or Linux).
+3. Click on the download button to start the download.
+4. Once the download is complete, run the installer and follow the installation instructions.
+5. To verify that Node.js is installed, open a terminal or command prompt and type the following command:
+
+   ```shell
+   node --version
+   ```
+   ```shell
+   npm --version
+   ```
+
+### 2. Clone the GitHub repository and build the docker image 
+
+   - Clone the GitHub repository
+       ```shell 
+       git clone https://github.com/chaks64/fetch-receipt-assignment.git 
+       ```
+   
+   - Change into the project directory
+   
+       ``` shell 
+       cd fetch-receipt-assignment 
+       ```
+
+### 3. Install Dependencies and start the server
+- To install dependencies
+    ```shell
+    npm install
+    ```
+
+- To start server/application
+    ```sheel
+    npm start
+    ```
+    
+After these steps follow __Running APIs__ module to run the APIs
+
+### 4. Unit test cases (Optional)
+#### Running API test cases:
+
+       
+- To install dependencies
+    ```shell
+    cd test
+    ```
+
+- Change or add JSON payload/data in file testData.api.js
+
+- Import test data in file api.test.js
+
+- Run following command to run test cases
+    ```shell
+    npx mocha test/api.test.js
+    ```
+    
+## Contact Details
+- [LinkedIn](https://www.linkedin.com/in/chintan-shah64)
+- [GitHub](https://github.com/chaks64)
+- [Portfolio](https://shahchintan64.wixsite.com/chintan-shah

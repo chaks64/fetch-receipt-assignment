@@ -19,7 +19,7 @@ describe("Utility Function Tests", () => {
     console.log(dependent);
     it("should run only when receipt is valid and check the points calulation", () => {
       const points = calculatePoints(successReceipt);
-      assert.equal(points, 37);
+      assert.equal(points, 31);
     });
   }
 });

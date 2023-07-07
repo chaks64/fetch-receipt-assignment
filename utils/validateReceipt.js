@@ -16,7 +16,7 @@ function validateReceipt(receipt) {
   // Validate retailer property
   if (
     typeof receipt.retailer !== "string" ||
-    !receipt.retailer.match(/^\S+$/)
+    !receipt.retailer.match(/^(?:[A-Za-z0-9&]+(?:\s|$))+$/)
   ) {
     return false;
   }

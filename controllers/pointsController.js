@@ -15,7 +15,7 @@ module.exports.calcPoints = async (req, res, next) => {
         let points = calculatePoints(JSON.parse(value));
         res.status(200).json({ points });
       } else {
-        res.status(404).json({ error: "No receipt found for that id" });
+        res.status(404).json({ error: `No receipt found for ${key} id` });
       }
     });
   } catch (error) {
